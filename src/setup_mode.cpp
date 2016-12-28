@@ -3,6 +3,7 @@
 #include <ArduinoOTA.h>
 #include <FS.h>
 #include "Pcd8544.h"
+#include "Sds011.h"
 #include "config.h"
 
 #define WIFI_AP_SSID "ESPdust"
@@ -10,6 +11,7 @@
 
 extern pcd8544::Pcd8544 display;
 extern struct Configuration config;
+extern sds011::Sds011 sensor;
 
 ESP8266WebServer server(80);
 
@@ -69,6 +71,8 @@ static void on_form(void)
 
 void setup_setup(void)
 {
+    sensor.set_sleep(true);
+
     display.clear();
     display.setCursor(0, 0);
     display.println("WIFI");

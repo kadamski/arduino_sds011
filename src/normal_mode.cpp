@@ -10,8 +10,8 @@
 extern pcd8544::Pcd8544 display;
 extern expander::Expander expand;
 extern struct Configuration config;
+extern sds011::Sds011 sensor;
 
-sds011::Sds011 sensor(Serial);
 dht::Dht dht22(14);
 Ticker timer1;
 Ticker timer2;

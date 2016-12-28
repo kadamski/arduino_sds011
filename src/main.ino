@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 #include <FS.h>
 #include "Pcd8544.h"
+#include "Sds011.h"
 #include "Expander.h"
 
 #include "config.h"
@@ -12,6 +13,7 @@
 extern struct Configuration config;
 
 pcd8544::Pcd8544 display(13, 12, 14);
+sds011::Sds011 sensor(Serial);
 expander::Expander expand(0x38);
 
 static bool set_press;
