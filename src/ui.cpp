@@ -84,3 +84,20 @@ void display_status_wifi(enum wifi_status s)
             break;
     }
 }
+
+void display_status_sensor(enum sensor_status s)
+{
+    display.setCursor(1*7, 5);
+
+    switch(s) {
+        case SENSOR_ERROR:
+            display.print("!");
+            break;
+        case SENSOR_OK:
+            display.print(".");
+            break;
+        default:
+            display.print(" ");
+            break;
+    }
+}
