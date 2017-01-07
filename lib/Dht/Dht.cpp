@@ -13,14 +13,14 @@ void Dht::begin(void)
 
 uint16_t Dht::get_humidity(void)
 {
-    _read_packet();
+    _read_packet_retries();
     return _data[1] + (_data[0]<<8);
 }
 
 int16_t Dht::get_temperature(void)
 {
     int16_t t;
-    _read_packet();
+    _read_packet_retries();
 
     t = _data[3] + ((_data[2] & 0x7E)<<8);
 
@@ -38,6 +38,15 @@ uint32_t Dht::_pulse_in(bool l, uint32_t timeout)
     }
 
     return ret;
+}
+bool Dht::_read_packet_retries(int r)
+{
+    for (int i = 0; i < r; i++) {
+        if (_read_packet()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Dht::_read_packet(void)

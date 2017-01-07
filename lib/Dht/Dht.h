@@ -8,6 +8,8 @@
  #include "WProgram.h"
 #endif
 
+#define RETRIES 5
+
 namespace dht {
     class Dht
     {
@@ -22,6 +24,7 @@ namespace dht {
             int32_t _lastreadtime;
             bool _lastresult;
             bool _read_packet(void);
+            bool _read_packet_retries(int r=RETRIES);
             uint32_t _pulse_in(bool, uint32_t timeout=200);
             uint8_t _data[5];
     };
