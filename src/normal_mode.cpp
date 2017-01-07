@@ -73,14 +73,16 @@ void normal_loop(void)
     if (ok) {
         display_dust(pm25, pm10);
         display_status_sensor(SENSOR_OK);
-        if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-            display_status_wifi(WIFI_ERROR);
-        } else {
-            display_status_wifi(WIFI_OK);
-        }
-        int res = send_ts(pm25, pm10, t, h);
     } else {
         display_status_sensor(SENSOR_ERROR);
+        pm25 = pm10 = 0;
+    }
+
+    if (WiFi.waitForConnectResult() != WL_CONNECTED) {
+        display_status_wifi(WIFI_ERROR);
+    } else {
+        display_status_wifi(WIFI_OK);
+        int res = send_ts(pm25, pm10, t, h);
     }
 
     WiFi.disconnect();
