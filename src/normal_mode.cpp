@@ -56,6 +56,12 @@ void normal_loop(void)
     int pm25, pm10;
     bool ok;
 
+    int16_t t = dht22.get_temperature();
+    uint16_t h = dht22.get_humidity();
+
+    display_template();
+    display_temp(t, h);
+
     WiFi.begin(config.wifi_ssid, config.wifi_pass);
 
     sensor.set_sleep(false);
@@ -63,11 +69,8 @@ void normal_loop(void)
     ok = sensor.query_data_auto(&pm25, &pm10, SAMPLES);
     sensor.set_sleep(true);
 
-    int16_t t = dht22.get_temperature();
-    uint16_t h = dht22.get_humidity();
-
     if (ok) {
-        display_data(pm25, pm10, t, h);
+        display_dust(pm25, pm10);
         display.print(".");
         if (WiFi.waitForConnectResult() != WL_CONNECTED) {
             display.println("Wifi Connection Failed!");

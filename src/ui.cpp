@@ -21,24 +21,37 @@ static String val_to_str(uint16_t v)
     return r;
 }
 
-void display_data(uint16_t pm25, uint16_t pm10, int16_t t, uint16_t h)
+void display_template(void)
 {
     display.clear();
     display.setCursor(0, 0);
-
     display.println("    2.5   10");
-
     display.print("ug ");
+    display.setCursor(0, 2);
+    display.print("%  ");
+
+    display.setCursor(0, 5);
+}
+
+void display_dust(uint16_t pm25, uint16_t pm10)
+{
+    display.setCursor(3*7, 1);
+
     display.print(val_to_str(pm25).c_str());
 
     display.setCursor(8*7, 1);
     display.println(val_to_str(pm10).c_str());
 
-    display.print("%  ");
+    display.setCursor(3*7, 2);
     display.print(val_to_str((10*pm25/PM25_NORM)*10).c_str());
     display.setCursor(8*7, 2);
     display.print(val_to_str((10*pm10/PM10_NORM)*10).c_str());
 
+    display.setCursor(0, 5);
+}
+
+void display_temp(int16_t t, uint16_t h)
+{
     display.setCursor(0, 3);
     display.print("t:  ");
     display.print(val_to_str(t).c_str());
@@ -47,5 +60,7 @@ void display_data(uint16_t pm25, uint16_t pm10, int16_t t, uint16_t h)
     display.print("h:  ");
     display.print(val_to_str(h).c_str());
     display.println("%");
+
+    display.setCursor(0, 5);
 }
 
