@@ -1,4 +1,5 @@
 #include "Pcd8544.h"
+#include "ui.h"
 
 static const int PM25_NORM=25;
 static const int PM10_NORM=40;
@@ -64,3 +65,22 @@ void display_temp(int16_t t, uint16_t h)
     display.setCursor(0, 5);
 }
 
+void display_status_wifi(enum wifi_status s)
+{
+    display.setCursor(0, 5);
+
+    switch(s) {
+        case WIFI_CONNECTING:
+            display.print("?");
+            break;
+        case WIFI_ERROR:
+            display.print("!");
+            break;
+        case WIFI_OK:
+            display.print(".");
+            break;
+        default:
+            display.print(" ");
+            break;
+    }
+}

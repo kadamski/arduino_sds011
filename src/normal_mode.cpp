@@ -63,6 +63,7 @@ void normal_loop(void)
     display_temp(t, h);
 
     WiFi.begin(config.wifi_ssid, config.wifi_pass);
+    display_status_wifi(WIFI_CONNECTING);
 
     sensor.set_sleep(false);
     delay(1000);
@@ -71,11 +72,11 @@ void normal_loop(void)
 
     if (ok) {
         display_dust(pm25, pm10);
-        display.print(".");
         if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-            display.println("Wifi Connection Failed!");
+            display_status_wifi(WIFI_ERROR);
+        } else {
+            display_status_wifi(WIFI_OK);
         }
-        display.print(".");
         display.println(String(send_ts(pm25, pm10, t, h)).c_str());
     } else {
         display.clear();
