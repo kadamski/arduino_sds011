@@ -8,6 +8,7 @@ enum wifi_status {
 };
 
 enum sensor_status {
+    SENSOR_START,
     SENSOR_OK,
     SENSOR_ERROR
 };

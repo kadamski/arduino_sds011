@@ -69,6 +69,7 @@ void normal_loop(void)
     display_status_wifi(WIFI_CONNECTING);
 
     sensor.set_sleep(false);
+    display_status_sensor(SENSOR_START);
     delay(1000);
     ok = sensor.query_data_auto(&pm25, &pm10, SAMPLES);
     sensor.set_sleep(true);

@@ -108,6 +108,9 @@ void display_status_sensor(enum sensor_status s)
         case SENSOR_ERROR:
             display.print("!");
             break;
+        case SENSOR_START:
+            display.print("?");
+            break;
         case SENSOR_OK:
             display.print(".");
             break;
