@@ -1,4 +1,5 @@
 #pragma once
+#include "Dht.h"
 
 enum wifi_status {
     WIFI_CONNECTING,
@@ -23,3 +24,4 @@ void display_temp(int16_t t, int16_t h);
 void display_status_wifi(enum wifi_status s);
 void display_status_sensor(enum sensor_status s);
 void display_status_send(enum send_status s);
+void display_status_dht(enum dht::dht_status s);

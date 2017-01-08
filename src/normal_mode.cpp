@@ -54,12 +54,16 @@ void normal_loop(void)
 {
     int pm25, pm10;
     bool ok;
-
-    int16_t t = dht22.get_temperature();
-    int16_t h = dht22.get_humidity();
+    int16_t t, h;
+    dht::dht_status dhts;
 
     display_template();
-    display_temp(t, h);
+
+    dhts = dht22.read(&t, &h);
+    display_status_dht(dhts);
+    if (dhts == dht::DHT_OK) {
+        display_temp(t, h);
+    }
 
     WiFi.begin(config.wifi_ssid, config.wifi_pass);
     display_status_wifi(WIFI_CONNECTING);

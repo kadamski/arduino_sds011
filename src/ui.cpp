@@ -1,4 +1,5 @@
 #include "Pcd8544.h"
+#include "Dht.h"
 #include "ui.h"
 
 static const int PM25_NORM=25;
@@ -127,6 +128,29 @@ void display_status_send(enum send_status s)
             break;
         case SEND_OK:
             display.print(".");
+            break;
+        default:
+            display.print(" ");
+            break;
+    }
+}
+
+void display_status_dht(enum dht::dht_status s)
+{
+    display.setCursor(3*7, 5);
+
+    switch(s) {
+        case dht::DHT_OK:
+            display.print(".");
+            break;
+        case dht::DHT_BADCRC:
+            display.print("C");
+            break;
+        case dht::DHT_TIMEOUT_START:
+            display.print("!");
+            break;
+        case dht::DHT_TIMEOUT:
+            display.print("T");
             break;
         default:
             display.print(" ");

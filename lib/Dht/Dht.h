@@ -10,20 +10,21 @@
 
 #define RETRIES 5
 
-enum dht_status {
-    DHT_OK,
-    DHT_TIMEOUT,
-    DHT_TIMEOUT_START,
-    DHT_BADCRC,
-    DHT_NONE
-};
-
 namespace dht {
+    enum dht_status {
+        DHT_OK,
+        DHT_TIMEOUT,
+        DHT_TIMEOUT_START,
+        DHT_BADCRC,
+        DHT_NONE
+    };
+
     class Dht
     {
         public:
             Dht(uint8_t pin);
             void begin(void);
+            dht_status read(int16_t *t, int16_t *h);
             int16_t get_humidity(void);
             int16_t get_temperature(void);
 

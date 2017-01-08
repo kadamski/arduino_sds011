@@ -56,6 +56,23 @@ dht_status Dht::_read_packet_retries(int r)
     return ret;
 }
 
+dht_status Dht::read(int16_t *t, int16_t *h)
+{
+    dht_status r = _read_packet_retries();
+    if (r != DHT_OK) {
+        *t = INT16_MIN;
+        *h = INT16_MIN;
+        return r;
+    }
+
+    *t = _data[3] + ((_data[2] & 0x7E)<<8);
+    *t = (_data[2] & 0x80) ? -*t : *t;
+
+    *h = _data[1] + (_data[0]<<8);
+
+    return DHT_OK;
+}
+
 dht_status Dht::_read_packet(void)
 {
     uint32_t cur = millis();
