@@ -2,7 +2,7 @@
 
 using namespace dht;
 
-Dht::Dht(uint8_t pin) : _pin(pin), _lastreadtime(-2000), _lastresult(false)
+Dht::Dht(uint8_t pin) : _pin(pin), _lastreadtime(-2000), _lastresult(DHT_NONE)
 {
 }
 
@@ -11,16 +11,20 @@ void Dht::begin(void)
     pinMode(_pin, INPUT_PULLUP);
 }
 
-uint16_t Dht::get_humidity(void)
+int16_t Dht::get_humidity(void)
 {
-    _read_packet_retries();
+    if (_read_packet_retries() != DHT_OK) {
+        return INT16_MIN;
+    }
     return _data[1] + (_data[0]<<8);
 }
 
 int16_t Dht::get_temperature(void)
 {
     int16_t t;
-    _read_packet_retries();
+    if (_read_packet_retries() != DHT_OK) {
+        return INT16_MIN;
+    }
 
     t = _data[3] + ((_data[2] & 0x7E)<<8);
 
@@ -39,17 +43,20 @@ uint32_t Dht::_pulse_in(bool l, uint32_t timeout)
 
     return ret;
 }
-bool Dht::_read_packet_retries(int r)
+
+dht_status Dht::_read_packet_retries(int r)
 {
+    dht_status ret;
+
     for (int i = 0; i < r; i++) {
-        if (_read_packet()) {
-            return true;
+        if ((ret = _read_packet()) == DHT_OK) {
+            return ret;
         }
     }
-    return false;
+    return ret;
 }
 
-bool Dht::_read_packet(void)
+dht_status Dht::_read_packet(void)
 {
     uint32_t cur = millis();
     uint_fast16_t buf[80];
@@ -76,9 +83,7 @@ bool Dht::_read_packet(void)
 
     pinMode(_pin, INPUT_PULLUP);
     if (_pulse_in(LOW) == 0 || _pulse_in(HIGH) == 0) {
-        Serial.println("Timeout on startup");
-        _lastresult = false;
-        return false;
+        return _lastresult = DHT_TIMEOUT_START;
     }
 
     for (int i=0; i<80; i+=2) {
@@ -90,10 +95,7 @@ bool Dht::_read_packet(void)
 
     for (int i=0; i<80; i+=2) {
         if (buf[i] == 0 || buf[i+1] == 0) {
-            Serial.print(i/2);
-            Serial.println(": timeout ");
-            _lastresult = false;
-            return false;
+            return _lastresult = DHT_TIMEOUT;
         }
 
         _data[i/16] <<= 1;
@@ -104,10 +106,9 @@ bool Dht::_read_packet(void)
     }
 
     if (((_data[0] + _data[1] + _data[2] + _data[3]) & 0xFF) == _data[4]) {
-        _lastresult = true;
+        _lastresult = DHT_OK;
     } else {
-        Serial.println("CRC NOK");
-        _lastresult = false;
+        _lastresult = DHT_BADCRC;
     }
 
     return _lastresult;

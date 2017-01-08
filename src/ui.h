@@ -19,7 +19,7 @@ enum send_status {
 
 void display_template(void);
 void display_dust(uint16_t pm25, uint16_t pm10);
-void display_temp(int16_t t, uint16_t h);
+void display_temp(int16_t t, int16_t h);
 void display_status_wifi(enum wifi_status s);
 void display_status_sensor(enum sensor_status s);
 void display_status_send(enum send_status s);

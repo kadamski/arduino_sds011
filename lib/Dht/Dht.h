@@ -10,21 +10,29 @@
 
 #define RETRIES 5
 
+enum dht_status {
+    DHT_OK,
+    DHT_TIMEOUT,
+    DHT_TIMEOUT_START,
+    DHT_BADCRC,
+    DHT_NONE
+};
+
 namespace dht {
     class Dht
     {
         public:
             Dht(uint8_t pin);
             void begin(void);
-            uint16_t get_humidity(void);
+            int16_t get_humidity(void);
             int16_t get_temperature(void);
 
         private:
             uint8_t _pin;
             int32_t _lastreadtime;
-            bool _lastresult;
-            bool _read_packet(void);
-            bool _read_packet_retries(int r=RETRIES);
+            dht_status _lastresult;
+            dht_status _read_packet(void);
+            dht_status _read_packet_retries(int r=RETRIES);
             uint32_t _pulse_in(bool, uint32_t timeout=200);
             uint8_t _data[5];
     };

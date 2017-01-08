@@ -56,13 +56,22 @@ void display_dust(uint16_t pm25, uint16_t pm10)
     display.setCursor(0, 5);
 }
 
-void display_temp(int16_t t, uint16_t h)
+void display_temp(int16_t t, int16_t h)
 {
     display.setCursor(4*7, 3);
-    display.print(val_to_str(t).c_str());
+    if (t == INT16_MIN) {
+        display.print("E");
+    } else {
+        display.print(val_to_str(t).c_str());
+    }
     display.print("C");
+
     display.setCursor(4*7, 4);
-    display.print(val_to_str(h).c_str());
+    if (h == INT16_MIN) {
+        display.print("E");
+    } else {
+        display.print(val_to_str(h).c_str());
+    }
     display.println("%");
 
     display.setCursor(0, 5);

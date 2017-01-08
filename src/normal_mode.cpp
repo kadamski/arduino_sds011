@@ -56,7 +56,7 @@ void normal_loop(void)
     bool ok;
 
     int16_t t = dht22.get_temperature();
-    uint16_t h = dht22.get_humidity();
+    int16_t h = dht22.get_humidity();
 
     display_template();
     display_temp(t, h);
