@@ -82,7 +82,13 @@ void normal_loop(void)
         display_status_wifi(WIFI_ERROR);
     } else {
         display_status_wifi(WIFI_OK);
+        display_status_send(SEND_START);
         int res = send_ts(pm25, pm10, t, h);
+        if (res == 200) {
+            display_status_send(SEND_OK);
+        } else {
+            display_status_send(SEND_ERROR);
+        }
     }
 
     WiFi.disconnect();

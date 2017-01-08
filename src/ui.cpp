@@ -101,3 +101,23 @@ void display_status_sensor(enum sensor_status s)
             break;
     }
 }
+
+void display_status_send(enum send_status s)
+{
+    display.setCursor(2*7, 5);
+
+    switch(s) {
+        case SEND_START:
+            display.print("?");
+            break;
+        case SEND_ERROR:
+            display.print("!");
+            break;
+        case SEND_OK:
+            display.print(".");
+            break;
+        default:
+            display.print(" ");
+            break;
+    }
+}
