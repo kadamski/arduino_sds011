@@ -82,6 +82,7 @@ void display_status_wifi(enum wifi_status s)
 {
     display.setCursor(0, 5);
 
+    display.print("W");
     switch(s) {
         case WIFI_CONNECTING:
             display.print("?");
@@ -100,8 +101,9 @@ void display_status_wifi(enum wifi_status s)
 
 void display_status_sensor(enum sensor_status s)
 {
-    display.setCursor(1*7, 5);
+    display.setCursor(2*7, 5);
 
+    display.print("D");
     switch(s) {
         case SENSOR_ERROR:
             display.print("!");
@@ -117,8 +119,9 @@ void display_status_sensor(enum sensor_status s)
 
 void display_status_send(enum send_status s)
 {
-    display.setCursor(2*7, 5);
+    display.setCursor(4*7, 5);
 
+    display.print("U");
     switch(s) {
         case SEND_START:
             display.print("?");
@@ -137,8 +140,9 @@ void display_status_send(enum send_status s)
 
 void display_status_dht(enum dht::dht_status s)
 {
-    display.setCursor(3*7, 5);
+    display.setCursor(6*7, 5);
 
+    display.print("H");
     switch(s) {
         case dht::DHT_OK:
             display.print(".");
