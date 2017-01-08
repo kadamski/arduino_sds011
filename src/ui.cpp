@@ -31,6 +31,11 @@ void display_template(void)
     display.setCursor(0, 2);
     display.print("%  ");
 
+    display.setCursor(0, 3);
+    display.print("t:  ");
+    display.setCursor(0, 4);
+    display.print("h:  ");
+
     display.setCursor(0, 5);
 }
 
@@ -53,12 +58,10 @@ void display_dust(uint16_t pm25, uint16_t pm10)
 
 void display_temp(int16_t t, uint16_t h)
 {
-    display.setCursor(0, 3);
-    display.print("t:  ");
+    display.setCursor(4*7, 3);
     display.print(val_to_str(t).c_str());
     display.print("C");
-    display.setCursor(0, 4);
-    display.print("h:  ");
+    display.setCursor(4*7, 4);
     display.print(val_to_str(h).c_str());
     display.println("%");
 
