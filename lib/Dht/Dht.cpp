@@ -52,6 +52,11 @@ dht_status Dht::_read_packet_retries(int r)
         if ((ret = _read_packet()) == DHT_OK) {
             return ret;
         }
+        if (ret != DHT_TIMEOUT_START) {
+            delay(MIN_INTERVAL+2);
+        } else {
+            delay(MIN_INTERVAL/5);
+        }
     }
     return ret;
 }
@@ -78,7 +83,7 @@ dht_status Dht::_read_packet(void)
     uint32_t cur = millis();
     uint_fast16_t buf[80];
 
-    if (cur - _lastreadtime < 2000) {
+    if (cur - _lastreadtime < MIN_INTERVAL) {
         return _lastresult;
     }
 

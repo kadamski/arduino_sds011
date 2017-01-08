@@ -8,7 +8,8 @@
  #include "WProgram.h"
 #endif
 
-#define RETRIES 5
+#define RETRIES 3
+#define MIN_INTERVAL 2000
 
 namespace dht {
     enum dht_status {
