@@ -69,6 +69,22 @@ static void on_form(void)
     server.send(301, "text/html", "Moved Permanently");
 }
 
+static void on_update_post(void)
+{
+    HTTPUpload& upload = server.upload();
+
+    if (upload.status == UPLOAD_FILE_START) {
+        WiFiUDP::stopAll();
+        uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
+        Update.begin(maxSketchSpace);
+    } else if (upload.status == UPLOAD_FILE_WRITE) {
+        Update.write(upload.buf, upload.currentSize);
+    } else if (upload.status == UPLOAD_FILE_END) {
+        Update.end(true);
+    }
+    yield();
+}
+
 void setup_setup(void)
 {
     sensor.set_sleep(true);
@@ -91,6 +107,12 @@ void setup_setup(void)
 
     server.on("/", on_root);
     server.on("/form", on_form);
+
+    server.on("/update", HTTP_POST, [](){
+      server.sendHeader("Connection", "close");
+      server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+      ESP.restart();
+    }, on_update_post);
 
     ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
         display.setCursor(0, 5);
