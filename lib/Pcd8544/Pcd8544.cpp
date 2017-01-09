@@ -38,7 +38,7 @@ void Pcd8544::begin(void)
     }
 
     _write_cmd(mode_c, 0x21);  // LCD Extended Commands.
-    _write_cmd(mode_c, 0xD1);  // Set LCD Vop (Contrast).
+    _write_cmd(mode_c, 0xBA);  // Set LCD Vop (Contrast).
     _write_cmd(mode_c, 0x04);  // Set Temp coefficent. //0x04
     _write_cmd(mode_c, 0x14);  // LCD bias mode 1:48. //0x13
     _write_cmd(mode_c, 0x20);  // LCD Basic Commands
