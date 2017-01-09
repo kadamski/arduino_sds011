@@ -52,11 +52,7 @@ dht_status Dht::_read_packet_retries(int r)
         if ((ret = _read_packet()) == DHT_OK) {
             return ret;
         }
-        if (ret != DHT_TIMEOUT_START) {
-            delay(MIN_INTERVAL+2);
-        } else {
-            delay(MIN_INTERVAL/5);
-        }
+        delay(MIN_INTERVAL+2);
     }
     return ret;
 }
