@@ -17,6 +17,7 @@ Ticker timer1;
 Ticker timer2;
 
 static const int SAMPLES=10;
+static const int WIFI_TIMEOUT=30;
 
 static void turnOff(void)
 {
@@ -82,7 +83,13 @@ void normal_loop(void)
         pm25 = pm10 = 0;
     }
 
-    if (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    for (int i = 0; i < WIFI_TIMEOUT; i++) {
+        if (WiFi.isConnected()) {
+            break;
+        }
+        delay(1000);
+    }
+    if (!WiFi.isConnected()) {
         display_status_wifi(WIFI_ERROR);
     } else {
         display_status_wifi(WIFI_OK);
