@@ -66,7 +66,7 @@ dht_status Dht::read(int16_t *t, int16_t *h)
         return r;
     }
 
-    *t = _data[3] + ((_data[2] & 0x7E)<<8);
+    *t = _data[3] + ((_data[2] & 0x7F)<<8);
     *t = (_data[2] & 0x80) ? -*t : *t;
 
     *h = _data[1] + (_data[0]<<8);
