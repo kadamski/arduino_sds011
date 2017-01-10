@@ -7,11 +7,12 @@ static const int PM10_NORM=40;
 
 extern pcd8544::Pcd8544 display;
 
-static String val_to_str(uint16_t v)
+static String val_to_str(int16_t v)
 {
     String r;
 
     r = String(v/10);
+    v = abs(v);
     if (v < 1000 && v%10) {
         r += String(".") + String(v%10);
     }
