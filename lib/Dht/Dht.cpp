@@ -26,7 +26,7 @@ int16_t Dht::get_temperature(void)
         return INT16_MIN;
     }
 
-    t = _data[3] + ((_data[2] & 0x7E)<<8);
+    t = _data[3] + ((_data[2] & 0x7F)<<8);
 
     return (_data[2] & 0x80) ? -t : t;
 }
